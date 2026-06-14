@@ -8,8 +8,8 @@ from theme import C, I, icon, _b, pad, CENT, divider, RADIUS_MD, RADIUS_SHEET, g
 
 def profile_sheet(page: ft.Page, visible: bool, on_close) -> ft.Container:
     is_business = True
-    accent = C.GOLD if is_business else C.GREEN
-    accent_dim = C.GOLD_DIM if is_business else C.GREEN_DIM
+    accent = C.ACCENT
+    accent_dim = C.ACCENT_DIM
 
     quick_actions = [
         ("branches", "Sucursales", "branches"),
@@ -29,7 +29,7 @@ def profile_sheet(page: ft.Page, visible: bool, on_close) -> ft.Container:
                         ft.Container(
                             content=icon(ico, size=22, color=accent),
                             width=48, height=48, border_radius=24,
-                            bgcolor=C.GOLD_FAINT, alignment=CENT,
+                            bgcolor=C.ACCENT_FAINT, alignment=CENT,
                         ),
                         ft.Text(label, size=8, color=C.TEXT_DIM, font_family="monospace",
                                 text_align=ft.TextAlign.CENTER),
@@ -54,7 +54,7 @@ def profile_sheet(page: ft.Page, visible: bool, on_close) -> ft.Container:
                         content=ft.Text(initials, size=12, weight="bold",
                                         color=C.TEXT, text_align=ft.TextAlign.CENTER),
                         width=36, height=36, border_radius=18,
-                        bgcolor=C.GOLD_FAINT,
+                        bgcolor=C.AVATAR_BG,
                         border=_b(2, av_border),
                         alignment=CENT,
                     ),
@@ -67,7 +67,7 @@ def profile_sheet(page: ft.Page, visible: bool, on_close) -> ft.Container:
                 ], spacing=12,
             ),
             padding=pad(v=10, h=16), border_radius=RADIUS_MD,
-            bgcolor=C.GOLD_FAINT if is_active else None,
+            bgcolor=C.ACCENT_FAINT if is_active else None,
             on_click=on_click, ink=True,
         )
 
@@ -128,8 +128,8 @@ def profile_sheet(page: ft.Page, visible: bool, on_close) -> ft.Container:
             ),
             ft.Container(height=6),
             ft.Container(
-                content=ft.Row([icon("logout", size=18, color=C.RED),
-                                ft.Text("Cerrar sesion", size=14, color=C.RED)],
+                content=ft.Row([icon("logout", size=18, color=C.TEXT_DIM),
+                                ft.Text("Cerrar sesion", size=14, color=C.TEXT_DIM)],
                                spacing=12),
                 on_click=lambda e: (page.go("/login"), on_close()),
                 ink=True, padding=pad(v=12, h=24),
@@ -142,7 +142,7 @@ def profile_sheet(page: ft.Page, visible: bool, on_close) -> ft.Container:
 
     return gradient_border(
         content=content,
-        colors=[C.GREEN, C.GOLD, C.RED, C.TEXT],
+        colors=None,
         width=1.0,
         radius=22,
         bgcolor=C.POPUP_BG,

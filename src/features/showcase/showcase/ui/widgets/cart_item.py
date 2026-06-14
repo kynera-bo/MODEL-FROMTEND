@@ -53,9 +53,9 @@ def cart_item(
         discount_pct = int((1 - unit_price / original_price) * 100)
         price_row_items.append(
             ft.Container(
-                content=ft.Text(f"-{discount_pct}%", size=F_LABEL, color=C.GREEN,
+                content=ft.Text(f"-{discount_pct}%", size=F_LABEL, color=C.ACCENT,
                                 weight="bold", font_family="monospace"),
-                bgcolor=C.GREEN_FAINT,
+                bgcolor=C.ACCENT_FAINT,
                 border_radius=RADIUS_PILL,
                 padding=pad(v=2, h=SPACE_SM),
             )
@@ -79,13 +79,13 @@ def cart_item(
     # Subtotal
     subtotal = unit_price * quantity
     subtotal_text = ft.Text(
-        f"${subtotal:.2f}", size=F_H3, weight="bold", color=C.GREEN,
+        f"${subtotal:.2f}", size=F_H3, weight="bold", color=C.ACCENT,
     )
 
     # Delete
     delete_btn = ft.IconButton(
-        icon=icon("delete_outline", size=18, color=C.RED_DIM).icon,
-        icon_size=18, icon_color=C.RED_DIM,
+        icon=icon("delete_outline", size=18, color=C.TEXT_DIM).icon,
+        icon_size=18, icon_color=C.TEXT_DIM,
         style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=RADIUS_PILL)),
     )
 
@@ -111,29 +111,29 @@ def cart_item(
 
 
 def _quantity_stepper(quantity: int, max_qty: int) -> ft.Container:
-    """Stepper - / N / + con estilo gold."""
+    """Stepper - / N / + con estilo accent."""
 
     def minus_style():
         return ft.ButtonStyle(
             shape=ft.RoundedRectangleBorder(radius=6),
-            bgcolor=C.GOLD_FAINT,
+            bgcolor=C.ACCENT_FAINT,
             padding=pad(v=0, h=0),
         )
 
     def plus_style():
         return ft.ButtonStyle(
             shape=ft.RoundedRectangleBorder(radius=6),
-            bgcolor=C.GOLD_FAINT,
+            bgcolor=C.ACCENT_FAINT,
             padding=pad(v=0, h=0),
         )
 
     minus_btn = ft.IconButton(
-        icon=icon("remove", size=16, color=C.GOLD).icon,
-        icon_size=16, icon_color=C.GOLD,
+        icon=icon("remove", size=16, color=C.ACCENT).icon,
+        icon_size=16, icon_color=C.ACCENT,
         width=32, height=32,
         style=ft.ButtonStyle(
-            shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
-            bgcolor=C.GOLD_FAINT,
+            shape=ft.RoundedRectangleBorder(radius=6),
+            bgcolor=C.ACCENT_FAINT,
             padding=pad(v=0, h=0),
         ),
     )
@@ -145,17 +145,17 @@ def _quantity_stepper(quantity: int, max_qty: int) -> ft.Container:
         ),
         width=40, height=32,
         alignment=CENT,
-        border=_b(1, C.GOLD_DIM),
+        border=_b(1, C.ACCENT_DIM),
         border_radius=RADIUS_MD,
     )
 
     plus_btn = ft.IconButton(
-        icon=icon("add", size=16, color=C.GOLD).icon,
-        icon_size=16, icon_color=C.GOLD,
+        icon=icon("add", size=16, color=C.ACCENT).icon,
+        icon_size=16, icon_color=C.ACCENT,
         width=32, height=32,
         style=ft.ButtonStyle(
-            shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
-            bgcolor=C.GOLD_FAINT,
+            shape=ft.RoundedRectangleBorder(radius=6),
+            bgcolor=C.ACCENT_FAINT,
             padding=pad(v=0, h=0),
         ),
     )
@@ -165,7 +165,7 @@ def _quantity_stepper(quantity: int, max_qty: int) -> ft.Container:
             [minus_btn, quantity_label, plus_btn],
             spacing=SPACE_XS,
         ),
-        border=_b(1, C.GOLD_DIM),
+        border=_b(1, C.ACCENT_DIM),
         border_radius=RADIUS_MD,
         padding=pad(v=4, h=SPACE_XS),
     )

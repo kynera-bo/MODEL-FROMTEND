@@ -117,8 +117,8 @@ def _build_sidebar(page, active_id):
             ft.Container(
                 content=ft.Row(
                     [
-                        icon("chevron_up", size=14, color=C.GREEN),
-                        ft.Text("VER TODOS", size=F_LABEL, color=C.GREEN,
+                        icon("chevron_up", size=14, color=C.ACCENT),
+                        ft.Text("VER TODOS", size=F_LABEL, color=C.ACCENT,
                                 weight="bold", font_family="monospace"),
                     ],
                     spacing=SPACE_SM,
@@ -131,7 +131,7 @@ def _build_sidebar(page, active_id):
         items.append(divider())
 
     title = ft.Container(
-        content=ft.Text("COMPONENTES", size=F_LABEL, color=C.GOLD, weight="bold",
+        content=ft.Text("COMPONENTES", size=F_LABEL, color=C.ACCENT, weight="bold",
                         font_family="monospace"),
         padding=pad(v=SPACE_SM, h=SPACE_MD),
     )
@@ -167,7 +167,7 @@ def _build_sidebar(page, active_id):
                         spacing=SPACE_XS,
                     ),
                     bgcolor=bg,
-                    border=_b(1, C.GREEN if is_active else "transparent"),
+                    border=_b(1, C.ACCENT if is_active else "transparent"),
                     border_radius=RADIUS_MD,
                     padding=pad(v=SPACE_SM, h=SPACE_MD),
                     on_click=lambda e, cid=comp["id"]: page.go(f"/showcase/{cid}"),
@@ -205,7 +205,7 @@ def _render_grid_overview():
     cards = []
     for section in COMPONENTS:
         cards.append(
-            ft.Text(section["section"], size=F_H2, weight="bold", color=C.GOLD)
+            ft.Text(section["section"], size=F_H2, weight="bold", color=C.ACCENT)
         )
         cards.append(ft.Container(height=SPACE_MD))
         row_items = []

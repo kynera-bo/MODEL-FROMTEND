@@ -7,8 +7,8 @@ from theme import C, F_BODY, F_CAPTION, F_LABEL, F_MONO, RADIUS_XL, RADIUS_LG, R
 
 
 BARTER_STATUS = {
-    "open": ("ABIERTO", C.GREEN, C.GREEN_FAINT),
-    "negotiating": ("NEGOCIANDO", C.GOLD, C.GOLD_FAINT),
+    "open": ("ABIERTO", C.ACCENT, C.ACCENT_FAINT),
+    "negotiating": ("NEGOCIANDO", C.ACCENT, C.ACCENT_FAINT),
     "closed": ("CERRADO", C.TEXT_DIM, C.SURFACE2),
 }
 
@@ -85,23 +85,23 @@ def marketplace_barter_card(
         label="OFREZCO",
         item_name=offer_item,
         category=offer_category,
-        accent_color=C.GREEN,
-        accent_bg=C.GREEN_FAINT,
+        accent_color=C.ACCENT,
+        accent_bg=C.ACCENT_FAINT,
     )
 
     seek_col = _barter_side(
         label="BUSCO",
         item_name=seek_item,
         category=seek_category,
-        accent_color=C.GOLD,
-        accent_bg=C.GOLD_FAINT,
+        accent_color=C.ACCENT,
+        accent_bg=C.ACCENT_FAINT,
     )
 
     swap_icon = ft.Container(
-        content=icon("swap_horiz", size=18, color=C.GOLD),
+        content=icon("swap_horiz", size=18, color=C.ACCENT),
         width=36, height=36, border_radius=18,
-        bgcolor=C.GOLD_BG,
-        border=_b(1, C.GOLD_DIM),
+        bgcolor=C.ACCENT_BG,
+        border=_b(1, C.ACCENT_DIM),
         alignment=CENT,
     )
 
@@ -114,14 +114,14 @@ def marketplace_barter_card(
 
     # Footer: match %
     content_items.append(ft.Container(height=SPACE_MD))
-    match_color = C.GREEN if match_percent >= 70 else C.GOLD if match_percent >= 40 else C.RED
+    match_color = C.ACCENT if match_percent >= 70 else C.ACCENT if match_percent >= 40 else C.ERROR
     match_badge = ft.Container(
         content=ft.Text(
             f"Match {match_percent}%",
             size=F_LABEL, color=match_color, weight="bold",
             font_family="monospace",
         ),
-        bgcolor=C.PURPLE + "1A" if "1A" not in C.PURPLE else "#1ACE93D8",
+        bgcolor=C.ACCENT,
         border_radius=RADIUS_PILL,
         padding=pad(v=3, h=SPACE_SM),
     )

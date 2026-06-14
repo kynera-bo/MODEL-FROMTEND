@@ -39,8 +39,8 @@ def input_field(label_text: str, placeholder: str = "", password: bool = False,
         ft.TextField(
             hint_text=placeholder, password=password, can_reveal_password=password,
             bgcolor=C.SURFACE, border_color=C.BORDER, border_radius=10,
-            color=C.TEXT, width=width, height=44, cursor_color=C.GOLD,
-            focused_border_color=C.GOLD_DIM,
+            color=C.TEXT, width=width, height=44, cursor_color=C.ACCENT,
+            focused_border_color=C.ACCENT_DIM,
             content_padding=pad(v=10, h=14),
         ),
     ], spacing=0)

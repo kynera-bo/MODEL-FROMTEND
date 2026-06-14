@@ -8,10 +8,10 @@ import random
 
 HEAT_COLORS = [
     C.SURFACE2,            # 0: sin actividad
-    C.GREEN_FAINT,         # 1: baja
+    C.ACCENT_FAINT,        # 1: baja
     "#3D8CC878",           # 2: media-baja
     "#6D8CC878",           # 3: media
-    C.GREEN,               # 4: alta
+    C.ACCENT,              # 4: alta
 ]
 
 DAYS = ["Lun", "", "Mie", "", "Vie", "", ""]

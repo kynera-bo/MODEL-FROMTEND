@@ -29,7 +29,7 @@ def conversation_list_item(
     online_dot = ft.Container(
         width=10, height=10,
         border_radius=5,
-        bgcolor=C.GREEN if online else C.TEXT_DIM,
+        bgcolor=C.ACCENT if online else C.TEXT_DIM,
         border=_b(2, C.BG),
         offset=ft.Offset(0.9, 0.9),
     ) if online else None
@@ -44,7 +44,7 @@ def conversation_list_item(
                 width=48, height=48,
                 border_radius=24,
                 bgcolor=C.AVATAR_BG,
-                border=_b(1.5, C.GREEN_DIM if online else C.BORDER),
+                border=_b(1.5, C.ACCENT_DIM if online else C.BORDER),
                 alignment=CENT,
             ),
             online_dot or ft.Container(),
@@ -75,7 +75,7 @@ def conversation_list_item(
                     size=F_LABEL, color=C.BG, weight="bold",
                     text_align=ft.TextAlign.CENTER,
                 ),
-                bgcolor=C.RED,
+                bgcolor=C.ERROR,
                 border_radius=RADIUS_PILL,
                 padding=pad(v=2, h=6),
             )

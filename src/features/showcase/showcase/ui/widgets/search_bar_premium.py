@@ -32,21 +32,21 @@ def search_bar_premium(
         border_radius=RADIUS_MD,
         color=C.TEXT,
         text_size=F_BODY,
-        cursor_color=C.GOLD,
+        cursor_color=C.ACCENT,
         content_padding=pad(v=10, h=SPACE_MD),
         height=48,
         expand=True,
         prefix_icon=icon("search", size=18, color=C.TEXT_DIM).icon,
         suffix_icon=ft.IconButton(
-            icon=icon("tune", size=18, color=C.GOLD).icon,
-            icon_size=18, icon_color=C.GOLD,
+            icon=icon("tune", size=18, color=C.ACCENT).icon,
+            icon_size=18, icon_color=C.ACCENT,
             style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=RADIUS_PILL)),
         ),
     )
 
     search_row = gradient_border(
         content=search_field,
-        colors=[C.BORDER, C.GOLD_DIM, C.GREEN_DIM, C.BORDER],
+        colors=[C.BORDER, C.ACCENT_DIM, C.ACCENT_DIM, C.BORDER],
         width=1.0,
         radius=RADIUS_MD + 1,
         bgcolor=C.SURFACE,

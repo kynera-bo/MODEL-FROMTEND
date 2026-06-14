@@ -27,10 +27,10 @@ def story_ring(
 
     if is_add:
         inner = ft.Container(
-            content=icon("add", size=18, color=C.GREEN),
+            content=icon("add", size=18, color=C.ACCENT),
             width=inner_size, height=inner_size,
             border_radius=inner_size // 2,
-            bgcolor=C.GREEN_FAINT,
+            bgcolor=C.ACCENT_FAINT,
             alignment=CENT,
         )
     else:
@@ -60,7 +60,6 @@ def story_ring(
     else:
         ring = gradient_border(
             content=inner,
-            colors=[C.GREEN, C.GOLD, C.RED, C.TEXT],
             width=2.5,
             radius=size // 2,
             bgcolor="transparent",

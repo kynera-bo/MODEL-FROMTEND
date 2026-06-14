@@ -1,66 +1,72 @@
 """
-Design Tokens — Aura frontend v3.
-Paleta tricolor boliviano (verde/gold/rojo) + premium dark.
-Cada color tiene proposito semantico. NUNCA usar colores fuera de este archivo.
+Design Tokens — Kynera Brand System v1.
+Paleta monocromática premium (negro/blanco/grises) + acento azul eléctrico.
+Dark mode first. Sin colores Bolivia (verde/gold/rojo).
 """
 import flet as ft
 from flet.controls.material.icons import Icons as IconEnum
 
 # ============================================================
-#  COLORES — Premium Dark con acentos Bolivia
-#  Regla: verde=exito, gold=destacado, rojo=peligro.
-#         Blancos/grises para texto. NUNCA intercambiar.
+#  COLORES — Dark Mode (Primario)
 # ============================================================
 
 class C:
-    # Fondos — jerarquia clara (de oscuro a claro)
-    BG          = "#080504"              # pagina (warm black, ligerisimo tinte rojizo)
-    SURFACE     = "#11100e"              # cards, inputs, paneles
-    SURFACE2    = "#1a1816"              # hover de cards, superficies secundarias
-    SHELL_BG    = "#080504"              # contenedor desktop (mismo que BG — el mas oscuro)
-    POPUP_BG    = "#141210"              # fondo popup/sheet
-    OVERLAY     = "#CC000000"            # backdrop oscuro (#000000cc)
+    # ── Fondos ──
+    BG          = "#000000"       # página
+    SURFACE     = "#111111"       # cards, inputs, paneles
+    SURFACE2    = "#1A1A1A"       # hover de cards, superficies secundarias
+    SHELL_BG    = "#000000"       # contenedor desktop (mismo que BG)
+    POPUP_BG    = "#181818"       # fondo popup/sheet
+    OVERLAY     = "#CC000000"     # backdrop oscuro (#000000cc)
 
-    # Component backgrounds (reemplazan los rgba hardcodeados)
-    SIDEBAR_BG     = "#E60F0E0C"         # Sidebar (rgba(15,14,12,0.9))
-    TABBAR_BG      = "#F0121212"         # Tabbar (rgba(18,18,18,0.94))
-    AVATAR_BG      = "#14FFFFFF"         # Contenedor avatar iniciales (rgba(255,255,255,0.08))
-    AVATAR_BG2     = "#1AFFFFFF"         # Contenedor avatar activo (rgba(255,255,255,0.1))
-    ITEM_ACTIVE_BG = "#0AFFFFFF"         # Elemento activo lista (rgba(255,255,255,0.04))
-    DRAG_HANDLE_BG = "#26FFFFFF"         # Drag handle (rgba(255,255,255,0.15))
+    # ── Fondos de componentes ──
+    SIDEBAR_BG     = "#E6181818"  # Sidebar (rgba(24,24,24,0.9))
+    TABBAR_BG      = "#F0121212"  # Tabbar (rgba(18,18,18,0.94))
+    AVATAR_BG      = "#14FFFFFF"  # Avatar iniciales (rgba(255,255,255,0.08))
+    AVATAR_BG2     = "#1AFFFFFF"  # Avatar activo (rgba(255,255,255,0.1))
+    ITEM_ACTIVE_BG = "#0AFFFFFF"  # Elemento activo lista (rgba(255,255,255,0.04))
+    DRAG_HANDLE_BG = "#26FFFFFF"  # Drag handle (rgba(255,255,255,0.15))
 
-    # Bordes — de alta gama (blanco/plata brillante, contenedores oro y hover verde)
-    BORDER        = "#D9F0F0F0"          # blanco plata brillante y definido (rgba(240,240,240,0.85))
-    BORDER_HOVER  = "#F28CC878"          # verde vibrante para hover/enfoque (rgba(140,200,120,0.95))
-    BORDER_STRONG = "#E6E1BE64"          # oro boliviano brillante para contenedores principales (rgba(225,190,100,0.90))
+    # ── Bordes ──
+    BORDER        = "#242424"     # borde estándar
+    BORDER_HOVER  = "#3B82F6"     # hover/enfoque azul
+    BORDER_STRONG = "#424242"     # borde fuerte (gris grafito)
 
-    # Texto — contraste limpio
-    TEXT        = "#F0F0F0"              # headings, texto principal
-    TEXT_MUTED  = "#B0B0B0"              # parrafos, descripciones
-    TEXT_DIM    = "#6A6A6A"              # labels, metadata
-    TEXT_DIM2   = "#40FFFFFF"            # texto secundario atenuado (rgba(255,255,255,0.25))
+    # ── Texto ──
+    TEXT        = "#FFFFFF"       # headings, texto principal
+    TEXT_MUTED  = "#C3C3C3"      # párrafos, descripciones
+    TEXT_DIM    = "#818182"      # labels, metadata
+    TEXT_DIM2   = "#40FFFFFF"    # texto secundario atenuado (rgba(255,255,255,0.25))
 
-    # Verde — EXITO, ACTIVO, CONFIRMAR, CHECK, ONLINE
-    GREEN       = "#CC8CC878"            # (rgba(140,200,120,0.80))
-    GREEN_DIM   = "#4D8CC878"            # (rgba(140,200,120,0.30))
-    GREEN_FAINT = "#148CC878"            # (rgba(140,200,120,0.08))
-    GREEN_BG    = "#1F8CC878"            # (rgba(140,200,120,0.12))
+    # ── Acento (Azul Eléctrico) ──
+    ACCENT       = "#3B82F6"     # azul eléctrico — botones, links, activo
+    ACCENT_DIM   = "#1E40AF"     # azul profundo — hover estados
+    ACCENT_FAINT = "#143B82F6"   # azul tenue (rgba(59,130,246,0.08))
+    ACCENT_BG    = "#1F3B82F6"   # azul fondo (rgba(59,130,246,0.12))
 
-    # Gold — PREMIUM, DESTACADO, HOVER, MONEDA
-    GOLD        = "#E6E1BE64"            # (rgba(225,190,100,0.90))
-    GOLD_DIM    = "#73E1BE64"            # (rgba(225,190,100,0.45))
-    GOLD_FAINT  = "#1FE1BE64"            # (rgba(225,190,100,0.12))
-    GOLD_BG     = "#14E1BE64"            # (rgba(225,190,100,0.08))
+    # ── Estados semánticos (versión monocromática) ──
+    SUCCESS      = "#3B82F6"     # éxito = azul acento
+    SUCCESS_BG   = "#1F3B82F6"   # fondo éxito
+    ERROR        = "#DC2626"     # error (rojo sutil, solo para errores críticos)
+    ERROR_BG     = "#1FDC2626"   # fondo error (rgba(220,38,38,0.12))
 
-    # Rojo — PELIGRO, CANCELAR, ERROR, ALERTA
-    RED         = "#BFDC8C78"            # (rgba(220,140,120,0.75))
-    RED_DIM     = "#40DC8C78"            # (rgba(220,140,120,0.25))
-    RED_FAINT   = "#14DC8C78"            # (rgba(220,140,120,0.08))
-    RED_BG      = "#0FDC8C78"            # (rgba(220,140,120,0.06))
+    # ── Gradiente para border premium (monocromático metálico) ──
+    GRADIENT_BORDER = ["#1A1A1A", "#424242", "#818182", "#C3C3C3"]
 
-    # Acentos para Dashboard
-    BLUE        = "#64B5F6"
-    PURPLE      = "#CE93D8"
+# ============================================================
+#  LIGHT MODE (Referencia — implementación futura)
+# ============================================================
+#  BG          = "#FFFFFF"
+#  SURFACE     = "#F7F7F7"
+#  SURFACE2    = "#EFEFEF"
+#  TEXT        = "#000000"
+#  TEXT_MUTED  = "#181818"
+#  TEXT_DIM    = "#424242"
+#  BORDER      = "#E0E0E0"
+#  BORDER_HOVER = "#3B82F6"
+#  ACCENT       = "#3B82F6"
+#  ACCENT_DIM   = "#2563EB"
+# ============================================================
 
 # ============================================================
 #  ESPACIADO + RADIOS
@@ -98,24 +104,32 @@ F_MONO = 11     # codigo/metadata
 # ============================================================
 
 I = {
-    "home": IconEnum.HOME, "search": IconEnum.SEARCH,
-    "chat": IconEnum.CHAT_BUBBLE, "bell": IconEnum.NOTIFICATIONS,
-    "person": IconEnum.PERSON, "trophy": IconEnum.EMOJI_EVENTS,
-    "people": IconEnum.GROUP, "settings": IconEnum.SETTINGS,
-    "cube": IconEnum.INVENTORY_2, "receipt": IconEnum.RECEIPT,
-    "location": IconEnum.LOCATION_ON, "add": IconEnum.ADD,
-    "logout": IconEnum.LOGOUT, "check": IconEnum.CHECK,
+    "home": IconEnum.HOME, "home_outlined": IconEnum.HOME_OUTLINED,
+    "search": IconEnum.SEARCH, "search_outlined": IconEnum.SEARCH_OUTLINED,
+    "chat": IconEnum.MODE_COMMENT, "chat_outlined": IconEnum.MODE_COMMENT_OUTLINED,
+    "bell": IconEnum.NOTIFICATIONS, "bell_outlined": IconEnum.NOTIFICATIONS_OUTLINED,
+    "person": IconEnum.PERSON, "person_outlined": IconEnum.PERSON_OUTLINED,
+    "trophy": IconEnum.EMOJI_EVENTS, "trophy_outlined": IconEnum.EMOJI_EVENTS_OUTLINED,
+    "people": IconEnum.GROUP, "people_outlined": IconEnum.GROUP_OUTLINED,
+    "settings": IconEnum.SETTINGS, "settings_outlined": IconEnum.SETTINGS_OUTLINED,
+    "cube": IconEnum.INVENTORY_2, "cube_outlined": IconEnum.INVENTORY_2_OUTLINED,
+    "receipt": IconEnum.RECEIPT, "receipt_outlined": IconEnum.RECEIPT_OUTLINED,
+    "location": IconEnum.LOCATION_ON, "location_outlined": IconEnum.LOCATION_ON_OUTLINED,
+    "add": IconEnum.ADD,
+    "logout": IconEnum.LOGOUT, "logout_outlined": IconEnum.LOGOUT_OUTLINED,
+    "check": IconEnum.CHECK,
     "chevron_down": IconEnum.KEYBOARD_ARROW_DOWN,
     "chevron_up": IconEnum.KEYBOARD_ARROW_UP,
     "sparkles": IconEnum.AUTO_AWESOME,
-    "notifications": IconEnum.NOTIFICATIONS,
-    "messages": IconEnum.CHAT_BUBBLE,
-    "branches": IconEnum.ACCOUNT_TREE,
-    "orders": IconEnum.SHOPPING_CART,
-    "explore": IconEnum.EXPLORE,
-    "gamification": IconEnum.EMOJI_EVENTS,
-    "social": IconEnum.GROUP,
-    "profile_menu": IconEnum.PERSON,
+    "notifications": IconEnum.NOTIFICATIONS, "notifications_outlined": IconEnum.NOTIFICATIONS_OUTLINED,
+    "messages": IconEnum.MODE_COMMENT, "messages_outlined": IconEnum.MODE_COMMENT_OUTLINED,
+    "branches": IconEnum.ACCOUNT_TREE, "branches_outlined": IconEnum.ACCOUNT_TREE_OUTLINED,
+    "orders": IconEnum.SHOPPING_CART, "orders_outlined": IconEnum.SHOPPING_CART_OUTLINED,
+    "map": IconEnum.MAP, "map_outlined": IconEnum.MAP_OUTLINED,
+    "explore": IconEnum.EXPLORE, "explore_outlined": IconEnum.EXPLORE_OUTLINED,
+    "gamification": IconEnum.EMOJI_EVENTS, "gamification_outlined": IconEnum.EMOJI_EVENTS_OUTLINED,
+    "social": IconEnum.GROUP, "social_outlined": IconEnum.GROUP_OUTLINED,
+    "profile_menu": IconEnum.PERSON, "profile_menu_outlined": IconEnum.PERSON_OUTLINED,
     "favorite": IconEnum.FAVORITE,
     "favorite_border": IconEnum.FAVORITE_BORDER,
     "bookmark_border": IconEnum.BOOKMARK_BORDER,
@@ -196,7 +210,8 @@ def _b(width: float, color: str) -> ft.border.Border:
     return ft.border.Border(top=s, left=s, right=s, bottom=s)
 
 
-def gradient_border(content: ft.Control, colors: list, width: float = 0.8, radius: float = 18, bgcolor: str = C.SURFACE, padding=None, expand: bool = False) -> ft.Container:
+def gradient_border(content: ft.Control, colors: list | None = None, width: float = 0.8, radius: float = 18, bgcolor: str = C.SURFACE, padding=None, expand: bool = False) -> ft.Container:
+    colors = colors or C.GRADIENT_BORDER
     return ft.Container(
         gradient=ft.LinearGradient(
             colors=colors,
@@ -224,7 +239,7 @@ def pad(v=0, h=0, l=0, t=0, r=0, b=0):
 CENT = ft.alignment.Alignment(0, 0)
 
 def icon(name: str, size: int = 20, color: str = C.TEXT_MUTED) -> ft.Icon:
-    """Icono Material. icon('home', size=20, color=C.GREEN)"""
+    """Icono Material. icon('home', size=20, color=C.TEXT_MUTED)"""
     return ft.Icon(I.get(name, IconEnum.CIRCLE), size=size, color=color)
 
 def divider(color: str = C.BORDER) -> ft.Container:

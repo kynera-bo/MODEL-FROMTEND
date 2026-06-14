@@ -3,7 +3,7 @@ PostCard — Publicacion estilo red social.
 Header de usuario, contenido texto, imagen, barra de acciones, likes.
 """
 import flet as ft
-from theme import C, F_H3, F_BODY, F_CAPTION, F_MONO, RADIUS_XL, RADIUS_LG, RADIUS_PILL, SPACE_XS, SPACE_SM, SPACE_MD, SPACE_LG, pad, _b, icon, CENT
+from theme import C, F_H3, F_BODY, F_CAPTION, RADIUS_XL, RADIUS_LG, RADIUS_PILL, SPACE_XS, SPACE_SM, SPACE_MD, SPACE_LG, pad, _b, icon, CENT
 
 
 def post_card(
@@ -12,7 +12,7 @@ def post_card(
     avatar_initials: str = "ML",
     timestamp: str = "2 horas",
     content: str = "Acabo de descubrir este marketplace increible! Los productos son de primera calidad y la experiencia de compra es simplemente genial.",
-    image_url: str = None,
+    image_url: str | None = None,
     likes_count: int = 2847,
     liked: bool = False,
 ) -> ft.Container:
@@ -75,7 +75,7 @@ def post_card(
 
     # Barra de acciones: like, comment, share, bookmark
     heart_icon_name = "favorite" if liked else "favorite_border"
-    heart_color = C.RED if liked else C.TEXT_MUTED
+    heart_color = C.ERROR if liked else C.TEXT_MUTED
 
     actions = ft.Row(
         [
@@ -144,5 +144,5 @@ def post_card(
         border=_b(1, C.BORDER),
         border_radius=RADIUS_XL,
         padding=pad(v=SPACE_MD, h=SPACE_LG),
-        width=500,
+        expand=True,
     )

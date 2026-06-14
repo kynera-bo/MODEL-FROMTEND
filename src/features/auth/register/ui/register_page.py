@@ -19,8 +19,8 @@ def register_screen(page: ft.Page) -> ft.View:
         inputs.append(ft.TextField(
             hint_text=placeholder, password=is_pwd, can_reveal_password=is_pwd,
             bgcolor=C.SURFACE, border_color=C.BORDER, border_radius=10,
-            color=C.TEXT, width=320, height=44, cursor_color=C.GOLD,
-            focused_border_color=C.GOLD_DIM, content_padding=pad(v=10, h=14),
+            color=C.TEXT, width=320, height=44, cursor_color=C.ACCENT,
+            focused_border_color=C.ACCENT_DIM, content_padding=pad(v=10, h=14),
         ))
         inputs.append(ft.Container(height=12))
 
@@ -39,7 +39,7 @@ def register_screen(page: ft.Page) -> ft.View:
                 *inputs,
                 ft.Button(
                     content=ft.Text("Crear Empresa", color=C.BG), on_click=do_register,
-                    bgcolor=C.GREEN,
+                    bgcolor=C.ACCENT,
                     style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
                                          padding=pad(v=12, h=SPACE_LG)),
                     width=320),

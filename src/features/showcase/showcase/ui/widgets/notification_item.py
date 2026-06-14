@@ -10,32 +10,32 @@ from theme import C, F_CAPTION, F_BODY, F_MONO, RADIUS_MD, RADIUS_PILL, SPACE_SM
 NOTIFICATION_TYPES = {
     "message": {
         "icon": "chat",
-        "color": C.GREEN,
-        "bg": C.GREEN_FAINT,
+        "color": C.ACCENT,
+        "bg": C.ACCENT_FAINT,
         "label": "Mensaje",
     },
     "event": {
         "icon": "event",
-        "color": C.GOLD,
-        "bg": C.GOLD_FAINT,
+        "color": C.ACCENT,
+        "bg": C.ACCENT_FAINT,
         "label": "Evento",
     },
     "task": {
         "icon": "check_circle",
-        "color": C.PURPLE,
+        "color": C.ACCENT,
         "bg": "#1ACE93D8",
         "label": "Tarea",
     },
     "activity": {
         "icon": "trending_up",
-        "color": C.BLUE,
+        "color": C.ACCENT,
         "bg": "#1A64B5F6",
         "label": "Actividad",
     },
     "system": {
         "icon": "info",
-        "color": C.RED,
-        "bg": C.RED_FAINT,
+        "color": C.ERROR,
+        "bg": C.ERROR_BG,
         "label": "Sistema",
     },
 }
@@ -90,7 +90,7 @@ def notification_item(
                     ft.TextButton(
                         content=ft.Text(action_label, size=F_CAPTION, weight="bold"),
                         style=ft.ButtonStyle(
-                            color=C.GREEN,
+                            color=C.ACCENT,
                             padding=pad(v=2, h=SPACE_SM),
                             shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
                         ),
@@ -105,7 +105,7 @@ def notification_item(
 
     unread_dot = ft.Container(
         width=8, height=8, border_radius=4,
-        bgcolor=C.GREEN,
+        bgcolor=C.ACCENT,
     ) if unread else ft.Container(width=8, height=8)
 
     row = ft.Row(

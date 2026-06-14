@@ -6,9 +6,9 @@ from theme import C, F_H1, F_H3, F_BODY, F_CAPTION, F_LABEL, F_MONO, RADIUS_XL, 
 
 
 RESERVATION_STATUS = {
-    "confirmed": ("CONFIRMADA", C.GREEN, C.GREEN_FAINT, "check"),
-    "pending": ("PENDIENTE", C.GOLD, C.GOLD_FAINT, "schedule"),
-    "cancelled": ("CANCELADA", C.RED, C.RED_FAINT, "close"),
+    "confirmed": ("CONFIRMADA", C.ACCENT, C.ACCENT_FAINT, "check"),
+    "pending": ("PENDIENTE", C.ACCENT, C.ACCENT_FAINT, "schedule"),
+    "cancelled": ("CANCELADA", C.ERROR, C.ERROR_BG, "close"),
 }
 
 
@@ -52,7 +52,7 @@ def reservation_card(
     date_block = ft.Container(
         content=ft.Column(
             [
-                ft.Text(day, size=F_H1, weight="bold", color=C.GOLD, text_align=ft.TextAlign.CENTER),
+                ft.Text(day, size=F_H1, weight="bold", color=C.TEXT, text_align=ft.TextAlign.CENTER),
                 ft.Text(month.upper(), size=F_LABEL, color=C.TEXT_DIM, weight="bold",
                         font_family="monospace", text_align=ft.TextAlign.CENTER),
                 ft.Text(year, size=F_MONO, color=C.TEXT_DIM, text_align=ft.TextAlign.CENTER),
@@ -62,9 +62,9 @@ def reservation_card(
             alignment=ft.MainAxisAlignment.CENTER,
         ),
         width=56, height=80,
-        bgcolor=C.GOLD_FAINT,
+        bgcolor=C.ACCENT_FAINT,
         border_radius=RADIUS_MD,
-        border=_b(1, C.GOLD_DIM),
+        border=_b(1, C.ACCENT_DIM),
         alignment=CENT,
         padding=pad(v=SPACE_SM, h=SPACE_XS),
     )
@@ -132,7 +132,7 @@ def reservation_card(
             ft.Column(
                 [
                     ft.Text(provider_name, size=F_CAPTION, weight="bold", color=C.TEXT),
-                    ft.Text(f"{rating} estrellas", size=F_MONO, color=C.GOLD),
+                    ft.Text(f"{rating} estrellas", size=F_MONO, color=C.ACCENT),
                 ],
                 spacing=0,
             ),
@@ -140,7 +140,7 @@ def reservation_card(
         spacing=SPACE_XS,
     )
 
-    price_text = ft.Text(price, size=F_H3, weight="bold", color=C.GREEN)
+    price_text = ft.Text(price, size=F_H3, weight="bold", color=C.ACCENT)
 
     footer_row = ft.Row(
         [
@@ -173,8 +173,8 @@ def reservation_card(
                     ),
                 ),
                 ft.ElevatedButton(
-                    content=ft.Text("Cancelar", size=F_CAPTION, color=C.RED),
-                    bgcolor=C.RED_FAINT,
+                    content=ft.Text("Cancelar", size=F_CAPTION, color=C.ERROR),
+                    bgcolor=C.ERROR_BG,
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
                         padding=pad(v=8, h=SPACE_LG),
@@ -188,18 +188,18 @@ def reservation_card(
             [
                 ft.ElevatedButton(
                     content=ft.Text("Confirmar", size=F_CAPTION),
-                    bgcolor=C.GREEN, color=C.BG,
+                    bgcolor=C.ACCENT, color=C.BG,
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
                         padding=pad(v=8, h=SPACE_LG),
                     ),
                 ),
                 ft.ElevatedButton(
-                    content=ft.Text("Cancelar", size=F_CAPTION, color=C.RED),
+                    content=ft.Text("Cancelar", size=F_CAPTION, color=C.ERROR),
                     bgcolor="transparent",
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
-                        side=_b(1, C.RED_DIM),
+                        side=_b(1, C.TEXT_DIM),
                         padding=pad(v=8, h=SPACE_LG),
                     ),
                 ),
@@ -211,7 +211,7 @@ def reservation_card(
             [
                 ft.ElevatedButton(
                     content=ft.Text("Reservar de nuevo", size=F_CAPTION),
-                    bgcolor=C.GREEN, color=C.BG,
+                    bgcolor=C.ACCENT, color=C.BG,
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
                         padding=pad(v=8, h=SPACE_LG),

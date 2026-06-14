@@ -2,7 +2,7 @@ import flet as ft
 import flet_map as ftm
 import flet_geolocator as ftg
 from theme import C, SPACE_XXL, pad, RADIUS_MD
-
+from adapters.routing_adapter import get_route
 
 INITIAL_LAT = 40.7128
 INITIAL_LNG = -74.0060
@@ -29,13 +29,18 @@ def map_content(page: ft.Page) -> ft.Container:
     marker_ref = ft.Ref[ftm.MarkerLayer]()
     biz_ref = ft.Ref[ftm.MarkerLayer]()
     my_ref = ft.Ref[ftm.MarkerLayer]()
+    route_line_ref = ft.Ref[ftm.PolylineLayer]()
     biz_name_ref = ft.Ref[ft.TextField]()
     form_ref = ft.Ref[ft.Container]()
     geo = getattr(page, "_geolocator", None)
     tap_circles = []
-    pending_biz_coords = [None]
+    pending_biz_coords: list[tuple[float, float] | None] = [None]
     businesses = list(BUSINESSES)
     tracking = [False]
+    my_pos: list[tuple[float, float] | None] = [None]
+    route_to_here_active = [False]
+    my_route_line_ref = ft.Ref[ftm.PolylineLayer]()
+    dest_marker_ref = ft.Ref[ftm.MarkerLayer]()
 
     def _rebuild_biz_markers():
         if not biz_ref.current:
@@ -45,7 +50,7 @@ def map_content(page: ft.Page) -> ft.Container:
             ms.append(ftm.Marker(
                 content=ft.Container(
                     content=ft.Row([
-                        ft.Icon(ft.Icons.STORE, color=C.GOLD, size=16),
+                        ft.Icon(ft.Icons.STORE, color=C.ACCENT, size=16),
                         ft.Text(b["name"][:10], size=9, color=C.TEXT, no_wrap=True),
                     ], spacing=2),
                     bgcolor=C.SURFACE, border_radius=8, padding=pad(v=2, h=6),
@@ -63,6 +68,9 @@ def map_content(page: ft.Page) -> ft.Container:
 
     business_layer = ftm.MarkerLayer(ref=biz_ref, markers=[])
     my_layer = ftm.MarkerLayer(ref=my_ref, markers=[])
+    dest_layer = ftm.MarkerLayer(ref=dest_marker_ref, markers=[])
+    route_line_layer = ftm.PolylineLayer(ref=route_line_ref, polylines=[])
+    my_route_layer = ftm.PolylineLayer(ref=my_route_line_ref, polylines=[])
     marker_layer = ftm.MarkerLayer(
         ref=marker_ref,
         markers=[
@@ -82,7 +90,6 @@ def map_content(page: ft.Page) -> ft.Container:
         border_color=ft.Colors.BLUE,
         border_stroke_width=3,
     )
-
     circle_layer = ftm.CircleLayer(
         ref=circle_ref,
         circles=[initial_circle],
@@ -160,9 +167,101 @@ def map_content(page: ft.Page) -> ft.Container:
         ],
     )
 
+    async def _route_businesses(e):
+        if len(businesses) < 2:
+            st("Se necesitan al menos 2 negocios para crear una ruta")
+            return
+        st(f"Calculando ruta entre {len(businesses)} negocios...")
+        try:
+            points = [(b["lat"], b["lng"]) for b in businesses]
+            result = await get_route(points)
+            coords = [
+                ftm.MapLatitudeLongitude(latitude=lat, longitude=lng)
+                for lat, lng in result.coordinates
+            ]
+            if route_line_ref.current:
+                route_line_ref.current.polylines = [
+                    ftm.PolylineMarker(
+                        stroke_width=5,
+                        border_stroke_width=1.5,
+                        border_color=ft.Colors.WHITE,
+                        color=C.ACCENT,
+                        stroke_pattern=ftm.SolidStrokePattern(),
+                        coordinates=coords,
+                    ),
+                ]
+                page.update()
+            st(f"Ruta: {result.distance_km} km · {result.duration_min} min")
+        except Exception as ex:
+            st(f"Error al calcular ruta: {ex}")
+
+    def _clear_route(e):
+        if route_line_ref.current:
+            route_line_ref.current.polylines = []
+        if my_route_line_ref.current:
+            my_route_line_ref.current.polylines = []
+        if dest_marker_ref.current:
+            dest_marker_ref.current.markers = []
+        page.update()
+        st("Rutas eliminadas")
+
+    def _toggle_route_to_here(e):
+        route_to_here_active[0] = not route_to_here_active[0]
+        if route_to_here_active[0]:
+            st("Modo ruta: toca el mapa para marcar destino")
+        else:
+            st("Modo ruta desactivado")
+
+    async def _route_to_here(dest_lat: float, dest_lng: float):
+        st("Obteniendo ubicación...")
+        try:
+            if geo and my_pos[0] is None:
+                p = await geo.get_current_position()
+                my_pos[0] = (p.latitude, p.longitude)
+            origin = my_pos[0]
+            if origin is None:
+                st("No se pudo obtener tu ubicación. Activa GPS primero.")
+                return
+            st("Calculando ruta...")
+            result = await get_route([origin, (dest_lat, dest_lng)])
+            coords = [
+                ftm.MapLatitudeLongitude(latitude=lat, longitude=lng)
+                for lat, lng in result.coordinates
+            ]
+            if my_route_line_ref.current:
+                my_route_line_ref.current.polylines = [
+                    ftm.PolylineMarker(
+                        stroke_width=5,
+                        border_stroke_width=1.5,
+                        border_color=ft.Colors.WHITE,
+                        color=ft.Colors.GREEN,
+                        stroke_pattern=ftm.SolidStrokePattern(),
+                        coordinates=coords,
+                    ),
+                ]
+            if dest_marker_ref.current:
+                dest_marker_ref.current.markers = [
+                    ftm.Marker(
+                        content=ft.Container(
+                            content=ft.Row([
+                                ft.Icon(ft.Icons.LOCATION_ON, color=ft.Colors.RED, size=18),
+                                ft.Text("Destino", size=9, color=C.TEXT, no_wrap=True),
+                            ], spacing=2),
+                            bgcolor=C.SURFACE, border_radius=8, padding=pad(v=2, h=6),
+                        ),
+                        coordinates=ftm.MapLatitudeLongitude(latitude=dest_lat, longitude=dest_lng),
+                        width=80, height=26,
+                    ),
+                ]
+            page.update()
+            st(f"Ruta desde ubicación: {result.distance_km} km · {result.duration_min} min")
+        except Exception as ex:
+            st(f"Error: {ex}")
+            route_to_here_active[0] = False
+
     def on_hover(e: ftm.MapHoverEvent):
         if event_ref.current:
-            event_ref.current.value = f"hover"
+            event_ref.current.value = "hover"
             page.update()
 
     def on_pointer_down(e: ftm.MapPointerEvent):
@@ -203,14 +302,15 @@ def map_content(page: ft.Page) -> ft.Container:
         if circle_ref.current:
             circle_ref.current.circles = tap_circles + [initial_circle]
             page.update()
-
         _set_pending_coords(e)
-
         lat, lng = e.coordinates.latitude, e.coordinates.longitude
         for b in businesses:
             if _near(lat, lng, b["lat"], b["lng"]):
                 _show_biz_popup(b)
                 return
+        if route_to_here_active[0]:
+            page.run_task(_route_to_here, lat, lng)
+            return
         st(f"({lat:.4f}, {lng:.4f})")
 
     def on_secondary_tap(e: ftm.MapTapEvent):
@@ -243,6 +343,7 @@ def map_content(page: ft.Page) -> ft.Container:
                 return
             p = await geo.get_current_position()
             lat, lng = p.latitude, p.longitude
+            my_pos[0] = (lat, lng)
             if marker_ref.current:
                 marker_ref.current.markers = [
                     ftm.Marker(
@@ -289,6 +390,7 @@ def map_content(page: ft.Page) -> ft.Container:
             geo.on_position_change = _on_my_position
             p = await geo.get_current_position()
             lat, lng = p.latitude, p.longitude
+            my_pos[0] = (lat, lng)
             tracking[0] = True
             if my_ref.current:
                 my_ref.current.markers = [
@@ -410,7 +512,10 @@ def map_content(page: ft.Page) -> ft.Container:
             ),
             business_layer,
             my_layer,
+            dest_layer,
             marker_layer,
+            route_line_layer,
+            my_route_layer,
             circle_layer,
             polygon_layer,
             polyline_layer,
@@ -433,6 +538,9 @@ def map_content(page: ft.Page) -> ft.Container:
             ft.Row([
                 ft.Text("Mapa", size=18, weight=ft.FontWeight.BOLD, color=C.TEXT),
                 ft.Container(expand=True),
+                ft.Button("Route Negocios", on_click=lambda e: page.run_task(_route_businesses, e), icon=ft.Icons.ROUTE, height=32, style=ft.ButtonStyle(bgcolor=C.ACCENT, color=ft.Colors.WHITE)),
+                ft.TextButton("Route Here", on_click=_toggle_route_to_here),
+                ft.TextButton("Clear", on_click=_clear_route),
                 ft.TextButton("Negocios", on_click=_toggle_form),
                 ft.TextButton("Compartir", on_click=lambda e: page.run_task(_toggle_tracking, e)),
                 ft.TextButton("GPS", on_click=lambda e: page.run_task(gps, e)),
@@ -446,7 +554,7 @@ def map_content(page: ft.Page) -> ft.Container:
     status = ft.Container(
         content=ft.Row([
             ft.Text(ref=status_ref, value="Listo.", size=11, color=C.TEXT_MUTED, expand=True),
-            ft.Text(ref=event_ref, value="", size=11, color=C.GOLD),
+            ft.Text(ref=event_ref, value="", size=11, color=C.ACCENT),
         ]),
         padding=pad(v=4, h=0),
     )

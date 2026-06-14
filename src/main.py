@@ -53,17 +53,21 @@ def route_change(page, e):
     elif not auth["token"]:
         page.views.append(login_screen(page, auth))
     else:
-        inner = _content_for(page, route)
-        page.views.append(main_shell(page, inner))
+        inner, right_panel = _content_for(page, route)
+        page.views.append(main_shell(page, inner, right_panel=right_panel))
     page.update()
 
 
 def _content_for(page, route):
-    if route == "/":         return dashboard_content(page)
-    if route == "/profile":  return profile_content(page)
-    if route.startswith("/showcase"): return showcase_content(page)
-    if route == "/map": return map_content(page)
-    return placeholder_content(route)
+    if route == "/":
+        return dashboard_content(page)
+    if route == "/profile":
+        return profile_content(page), None
+    if route.startswith("/showcase"):
+        return showcase_content(page), None
+    if route == "/map":
+        return map_content(page), None
+    return placeholder_content(route), None
 
 
 if __name__ == "__main__":

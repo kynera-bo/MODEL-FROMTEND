@@ -1,137 +1,132 @@
-"""
-MarketplaceServiceCard — Card de servicio con icono, descripcion, tags, precio y disponibilidad.
-"""
 import flet as ft
-from theme import C, F_H3, F_BODY, F_CAPTION, F_LABEL, RADIUS_XL, RADIUS_MD, RADIUS_PILL, SPACE_XS, SPACE_SM, SPACE_MD, SPACE_LG, pad, _b, icon, CENT
+from theme import C
+from theme import RADIUS_XL, RADIUS_MD, RADIUS_PILL
+from theme import SPACE_MD
+from theme import pad, _b, icon, CENT
 
 
 def marketplace_service_card(
     title: str = "Diseno Grafico Profesional",
-    description: str = "Logos, branding, social media y mas. Resultados profesionales en 48h.",
+    description: str = "Logos, branding, social media. Resultados profesionales en 48h.",
     icon_name: str = "brush",
-    tags: list[str] = None,
+    tags: list[str] | None = None,
     price_label: str = "Desde $50/h",
     available: bool = True,
     provider_name: str = "Ana Martinez",
     provider_initials: str = "AM",
     rating: float = 4.9,
+    review_count: int = 128,
+    location: str = "Remoto / NYC",
+    response_time: str = "< 1h",
+    image_url: str | None = None,
 ) -> ft.Container:
-    """Card de servicio para marketplace.
-
-    Args:
-        title: Nombre del servicio
-        description: Descripcion corta
-        icon_name: Nombre del icono Material representativo
-        tags: Lista de etiquetas (badges)
-        price_label: Texto de precio ("Desde $X" o "$X fijo")
-        available: Disponibilidad actual
-        provider_name: Nombre del proveedor
-        provider_initials: Iniciales del proveedor
-        rating: Puntuacion
-    """
     if tags is None:
-        tags = ["Branding", "Social Media", "Logos"]
+        tags = ["Branding", "Social Media"]
 
-    content_items = []
-
-    # Icono grande representativo
-    icon_circle = ft.Container(
-        content=icon(icon_name, size=32, color=C.GOLD),
-        width=64, height=64, border_radius=32,
-        bgcolor=C.GOLD_FAINT,
-        border=_b(1.5, C.GOLD_DIM),
-        alignment=CENT,
-    )
-    content_items.append(icon_circle)
-    content_items.append(ft.Container(height=SPACE_MD))
-
-    # Titulo y descripcion
-    content_items.append(
-        ft.Text(title, size=F_H3, weight="bold", color=C.TEXT)
-    )
-    content_items.append(ft.Container(height=SPACE_XS))
-    content_items.append(
-        ft.Text(description, size=F_CAPTION, color=C.TEXT_MUTED, max_lines=2,
-                overflow=ft.TextOverflow.ELLIPSIS)
-    )
-
-    # Tags
-    content_items.append(ft.Container(height=SPACE_MD))
-    tag_chips = [
-        ft.Container(
-            content=ft.Text(tag.upper(), size=F_LABEL, color=C.GREEN,
-                            weight="bold", font_family="monospace"),
-            bgcolor=C.GREEN_FAINT,
-            border_radius=RADIUS_PILL,
-            padding=pad(v=2, h=SPACE_SM),
+    overlays = []
+    if image_url:
+        overlays.append(
+            ft.Container(expand=True, content=ft.Image(src=image_url, fit=ft.BoxFit.COVER))
         )
-        for tag in tags
+        overlays.append(
+            ft.Container(
+                expand=True,
+                gradient=ft.LinearGradient(
+                    colors=["transparent", "#CC000000"],
+                    begin=ft.alignment.Alignment(0, 0.3),
+                    end=ft.alignment.Alignment(0, 1),
+                ),
+            ),
+        )
+        overlay_content = ft.Container(
+            content=ft.Row([
+                icon(icon_name, size=16, color=C.TEXT),
+                ft.Text(price_label, size=14, weight="bold", color=C.TEXT),
+            ], spacing=4),
+            left=10, top=10,
+        )
+        overlays.append(overlay_content)
+        overlays.append(
+            ft.Container(
+                content=ft.Text(response_time, size=9, color=C.ACCENT, weight="bold"),
+                bgcolor="#BB000000", border_radius=RADIUS_PILL, padding=pad(v=2, h=6),
+                right=8, bottom=8,
+            )
+        )
+    else:
+        overlays.append(
+            ft.Container(
+                content=ft.Column([
+                    ft.Container(
+                        content=icon(icon_name, size=32, color=C.ACCENT),
+                        width=60, height=60, border_radius=30,
+                        bgcolor=C.ACCENT_FAINT, border=_b(1.5, C.ACCENT_DIM), alignment=CENT,
+                    ),
+                    ft.Container(height=6),
+                    ft.Text(price_label, size=15, weight="bold", color=C.TEXT),
+                    ft.Text(response_time, size=10, color=C.ACCENT),
+                ], spacing=0, horizontal_alignment=ft.CrossAxisAlignment.CENTER, tight=True),
+                expand=True, alignment=CENT, bgcolor=C.SURFACE2,
+            )
+        )
+
+    chips = [
+        ft.Container(
+            content=ft.Text(t.upper(), size=8, color=C.ACCENT, weight="bold"),
+            bgcolor=C.ACCENT_FAINT, border_radius=RADIUS_PILL, padding=pad(v=2, h=6),
+        )
+        for t in tags
     ]
-    content_items.append(
-        ft.Row(tag_chips, spacing=SPACE_SM, wrap=True, run_spacing=SPACE_SM)
+    prov = ft.Container(
+        content=ft.Text(provider_initials.upper(), size=8, weight="bold", color=C.TEXT, text_align=ft.TextAlign.CENTER),
+        width=18, height=18, border_radius=9, bgcolor=C.AVATAR_BG, alignment=CENT,
     )
+    stars = ft.Row([], spacing=1)
+    for i in range(5):
+        if rating >= i + 1:
+            stars.controls.append(icon("star", size=10, color=C.ACCENT))
+        elif rating >= i + 0.5:
+            stars.controls.append(icon("star_half", size=10, color=C.ACCENT))
+        else:
+            stars.controls.append(icon("star_border", size=10, color=C.TEXT_DIM))
 
-    # Precio
-    content_items.append(ft.Container(height=SPACE_MD))
-    content_items.append(
-        ft.Text(price_label, size=F_H3, weight="bold", color=C.GOLD)
-    )
-
-    # Disponibilidad + proveedor
-    content_items.append(ft.Container(height=SPACE_MD))
-    avail_dot = ft.Container(
-        width=6, height=6, border_radius=3,
-        bgcolor=C.GREEN if available else C.RED,
-    )
-    avail_text = "Disponible ahora" if available else "No disponible"
-    avail_color = C.GREEN if available else C.RED_DIM
-
-    provider_avatar = ft.Container(
-        content=ft.Text(
-            provider_initials.upper(), size=F_LABEL, weight="bold",
-            color=C.TEXT, text_align=ft.TextAlign.CENTER,
-        ),
-        width=24, height=24, border_radius=12,
-        bgcolor=C.AVATAR_BG,
-        alignment=CENT,
-    )
-
-    footer_row = ft.Row(
-        [
-            ft.Row([avail_dot, ft.Text(avail_text, size=F_CAPTION, color=avail_color)], spacing=SPACE_XS),
-            ft.Container(expand=True),
-            ft.Row(
-                [
-                    provider_avatar,
-                    ft.Text(provider_name, size=F_CAPTION, color=C.TEXT_MUTED),
-                    ft.Text(f"· {rating}", size=F_CAPTION, color=C.GOLD),
-                ],
-                spacing=SPACE_XS,
-            ),
-        ],
-        spacing=SPACE_SM,
-    )
-    content_items.append(footer_row)
-
-    # Boton de accion
-    content_items.append(ft.Container(height=SPACE_LG))
-    content_items.append(
-        ft.ElevatedButton(
-            content=ft.Text("Reservar ahora", size=F_BODY, weight="bold"),
-            bgcolor=C.GOLD, color=C.BG,
-            style=ft.ButtonStyle(
-                shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
-                padding=pad(v=10, h=SPACE_LG),
-            ),
+    overlays.append(
+        ft.Container(
+            content=ft.Column([
+                ft.Text(title, size=13, weight=ft.FontWeight.BOLD, color=C.TEXT,
+                        max_lines=1, overflow=ft.TextOverflow.ELLIPSIS),
+                ft.Container(height=3),
+                ft.Row(chips, spacing=4, wrap=True, run_spacing=3),
+                ft.Container(height=3),
+                ft.Row([
+                    prov,
+                    ft.Text(provider_name, size=9, color=C.TEXT_MUTED,
+                            max_lines=1, overflow=ft.TextOverflow.ELLIPSIS),
+                    ft.Container(expand=True),
+                    stars,
+                    ft.Text(f"{rating}", size=9, color=C.ACCENT, weight="bold"),
+                ], spacing=3, vertical_alignment=ft.CrossAxisAlignment.CENTER),
+                ft.Container(height=4),
+                ft.Button(
+                    "Reservar",
+                    height=28,
+                    style=ft.ButtonStyle(
+                        bgcolor=C.ACCENT, color=C.BG,
+                        shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
+                        padding=pad(v=4, h=SPACE_MD),
+                    ),
+                ),
+            ], spacing=0, tight=True),
+            bgcolor="#CC000000", border_radius=RADIUS_MD,
+            left=0, right=0, bottom=0,
+            padding=pad(v=8, h=10),
         )
     )
 
     return ft.Container(
-        content=ft.Column(content_items, spacing=0, tight=True),
-        bgcolor=C.SURFACE,
-        border=_b(1, C.BORDER_STRONG),
-        border_radius=RADIUS_XL,
-        padding=pad(v=SPACE_LG, h=SPACE_LG),
-        width=340,
+        content=ft.Stack(overlays, expand=True),
+        expand=True,
+        bgcolor=C.SURFACE, border=_b(1, C.BORDER_STRONG), border_radius=RADIUS_XL,
+        clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
         ink=True,
     )

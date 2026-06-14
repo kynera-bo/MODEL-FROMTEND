@@ -6,15 +6,16 @@ import flet as ft
 
 
 def tab_bar_mobile(page: ft.Page, is_business: bool, on_toggle_sheet) -> ft.Container:
-    accent = C.GOLD if is_business else C.GREEN
-    ACTIVE_COLOR = C.GREEN
+    accent = C.ACCENT
+    ACTIVE_COLOR = C.ACCENT
 
     def _tab(icon_name, route):
         active = page.route == route
         color = ACTIVE_COLOR if active else C.TEXT_DIM
-        bg = C.GREEN_FAINT if active else None
+        bg = C.ACCENT_FAINT if active else None
+        name = icon_name if active else icon_name + "_outlined"
         return ft.Container(
-            content=icon(icon_name, size=22, color=color),
+            content=icon(name, size=22, color=color),
             width=40, height=40, border_radius=20,
             bgcolor=bg, alignment=CENT,
             on_click=lambda e: page.go(route), ink=True,
@@ -53,7 +54,7 @@ def tab_bar_mobile(page: ft.Page, is_business: bool, on_toggle_sheet) -> ft.Cont
             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
             vertical_alignment=ft.CrossAxisAlignment.CENTER,
         ),
-        colors=[C.GREEN, C.GOLD, C.RED, C.TEXT],
+        colors=None,
         width=1.0,
         radius=28,
         bgcolor=C.TABBAR_BG,

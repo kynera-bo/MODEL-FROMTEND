@@ -2,16 +2,15 @@
 AccountPopup — replica frontendx con iconos reales. Fondo opaco.
 """
 import flet as ft
-from theme import C, I, icon, _b, pad, CENT, divider, gradient_border
+from theme import C, icon, _b, pad, CENT, divider, gradient_border
 
 
 def account_popup(page: ft.Page, visible: bool, on_close) -> ft.Container:
     if not visible:
         return ft.Container()
 
-    is_business = True
-    accent = C.GOLD if is_business else C.GREEN
-    accent_dim = C.GOLD_DIM if is_business else C.GREEN_DIM
+    accent = C.ACCENT
+    accent_dim = C.ACCENT_DIM
 
     def _account_item(initials, name, detail, acctype, is_active, on_click):
         av_border = accent_dim if is_active else C.BORDER
@@ -98,8 +97,8 @@ def account_popup(page: ft.Page, visible: bool, on_close) -> ft.Container:
                 border_radius=10,
             ),
             ft.Container(
-                content=ft.Row([icon("logout", size=14, color=C.RED),
-                                ft.Text("Cerrar sesion", size=13, color=C.RED)],
+                content=ft.Row([icon("logout", size=14, color=C.TEXT_DIM),
+                                ft.Text("Cerrar sesion", size=13, color=C.TEXT_DIM)],
                                spacing=10),
                 on_click=lambda e: (page.go("/login"), on_close()),
                 ink=True, padding=pad(v=9, h=6), border_radius=10,
@@ -110,7 +109,7 @@ def account_popup(page: ft.Page, visible: bool, on_close) -> ft.Container:
 
     popup = gradient_border(
         content=content,
-        colors=[C.GREEN, C.GOLD, C.RED, C.TEXT],
+        colors=None,
         width=1.0,
         radius=18,
         bgcolor=C.POPUP_BG,

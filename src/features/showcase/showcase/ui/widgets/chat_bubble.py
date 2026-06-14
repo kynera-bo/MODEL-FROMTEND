@@ -23,8 +23,8 @@ def chat_bubble(
         read: Estado de lectura (doble check verde si True)
         image_url: URL de imagen adjunta (opcional)
     """
-    bubble_bg = C.GREEN_FAINT if sent else C.SURFACE
-    border_color = C.GREEN_DIM if sent else C.BORDER
+    bubble_bg = C.ACCENT_FAINT if sent else C.SURFACE
+    border_color = C.ACCENT_DIM if sent else C.BORDER
     align = ft.MainAxisAlignment.END if sent else ft.MainAxisAlignment.START
 
     content_items = []
@@ -48,10 +48,10 @@ def chat_bubble(
         ft.Text(timestamp, size=F_MONO, color=C.TEXT_DIM),
     ]
     if sent:
-        check_icon = icon("check", size=14, color=C.GREEN if read else C.TEXT_DIM)
+        check_icon = icon("check", size=14, color=C.ACCENT if read else C.TEXT_DIM)
         footer_items.append(check_icon)
         if read:
-            footer_items.append(icon("check", size=14, color=C.GREEN))
+            footer_items.append(icon("check", size=14, color=C.ACCENT))
 
     content_items.append(
         ft.Row(footer_items, spacing=4, alignment=ft.MainAxisAlignment.END)

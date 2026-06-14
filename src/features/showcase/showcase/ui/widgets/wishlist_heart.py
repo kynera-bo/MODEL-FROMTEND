@@ -17,7 +17,7 @@ def wishlist_heart(
         count: Cantidad de favoritos
         size: Tamaño del icono
     """
-    heart_color = C.RED if liked else C.TEXT_MUTED
+    heart_color = C.ACCENT if liked else C.TEXT_MUTED
     heart_icon_name = "favorite" if liked else "favorite_border"
 
     heart = ft.IconButton(
@@ -25,12 +25,12 @@ def wishlist_heart(
         icon_size=size, icon_color=heart_color,
         style=ft.ButtonStyle(
             shape=ft.RoundedRectangleBorder(radius=RADIUS_PILL),
-            bgcolor=C.RED_FAINT if liked else None,
+            bgcolor=C.ACCENT_FAINT if liked else None,
         ),
     )
 
     count_text = ft.Text(
-        str(count), size=F_CAPTION, color=C.RED if liked else C.TEXT_MUTED,
+        str(count), size=F_CAPTION, color=C.ACCENT if liked else C.TEXT_MUTED,
         weight="bold",
     )
 

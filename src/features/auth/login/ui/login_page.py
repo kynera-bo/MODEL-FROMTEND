@@ -2,7 +2,7 @@
 Login page.
 """
 import flet as ft
-from theme import C, pad, _b, icon, F_H2, F_CAPTION, SPACE_SM, SPACE_LG, SPACE_XL, SPACE_XXL, RADIUS_MD, RADIUS_XL
+from theme import C, pad, icon, F_H2, F_CAPTION, SPACE_SM, SPACE_LG, SPACE_XL, RADIUS_MD
 from features.auth.login.ui.shared import label, input_field, auth_card
 
 
@@ -10,14 +10,14 @@ def login_screen(page: ft.Page, auth: dict) -> ft.View:
     email = ft.TextField(
         hint_text="tu@email.com", bgcolor=C.SURFACE, border_color=C.BORDER,
         border_radius=10, color=C.TEXT, width=320, height=44,
-        cursor_color=C.GOLD, focused_border_color=C.GOLD_DIM,
+        cursor_color=C.ACCENT, focused_border_color=C.ACCENT_DIM,
         content_padding=pad(v=10, h=14))
 
     pwd = ft.TextField(
         hint_text="Password", password=True, can_reveal_password=True,
         bgcolor=C.SURFACE, border_color=C.BORDER, border_radius=10,
-        color=C.TEXT, width=320, height=44, cursor_color=C.GOLD,
-        focused_border_color=C.GOLD_DIM, content_padding=pad(v=10, h=14))
+        color=C.TEXT, width=320, height=44, cursor_color=C.ACCENT,
+        focused_border_color=C.ACCENT_DIM, content_padding=pad(v=10, h=14))
 
     def do_login(e):
         auth["token"] = "demo-token"
@@ -29,7 +29,7 @@ def login_screen(page: ft.Page, auth: dict) -> ft.View:
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         controls=[
             auth_card(ft.Column([
-                icon("sparkles", size=28, color=C.GOLD),
+                icon("sparkles", size=28, color=C.ACCENT),
                 ft.Container(height=16),
                 ft.Text("Gestos", size=F_H2, weight="bold", color=C.TEXT),
                 ft.Text("Sistema de Monitoreo Laboral", size=F_CAPTION, color=C.TEXT_MUTED),
@@ -40,7 +40,7 @@ def login_screen(page: ft.Page, auth: dict) -> ft.View:
                 ft.Container(height=SPACE_LG),
                 ft.Button(
                     content=ft.Text("Ingresar", color=C.BG),
-                    on_click=do_login, bgcolor=C.GREEN,
+                    on_click=do_login, bgcolor=C.ACCENT,
                     style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=RADIUS_MD),
                                          padding=pad(v=12, h=SPACE_LG)),
                     width=320),

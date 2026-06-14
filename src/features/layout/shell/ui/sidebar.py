@@ -3,21 +3,21 @@ SidebarDesktop — frontendv2
 Logo app icon + nav sections con divisores + perfil.
 """
 import flet as ft
-from theme import C, I, icon, _b, pad, CENT, divider, BUSINESS_NAV, CONSUMER_NAV, RADIUS_MD, SPACE_MD, SPACE_SM, SPACE_LG, gradient_border
+from theme import C, icon, _b, pad, CENT, divider, BUSINESS_NAV, CONSUMER_NAV, RADIUS_MD, SPACE_SM
 
 
 def sidebar_desktop(page: ft.Page, is_business: bool, on_toggle_popup) -> ft.Container:
     nav = BUSINESS_NAV if is_business else CONSUMER_NAV
-    accent = C.GOLD if is_business else C.GREEN
-    accent_dim = C.GOLD_DIM if is_business else C.GREEN_DIM
+    accent = C.ACCENT
+    accent_dim = C.ACCENT_DIM
 
     header = ft.Container(
         content=ft.Row(
             [
                 ft.Container(
-                    content=icon("sparkles", size=16, color=C.GOLD),
+                    content=icon("sparkles", size=16, color=C.ACCENT),
                     width=30, height=30, border_radius=8,
-                    bgcolor=C.GOLD_FAINT,
+                    bgcolor=C.ACCENT_FAINT,
                     alignment=CENT,
                     on_click=lambda e: page.go("/"),
                     ink=True,
@@ -59,7 +59,7 @@ def sidebar_desktop(page: ft.Page, is_business: bool, on_toggle_popup) -> ft.Con
         for item in section["items"]:
             is_active = page.route == item["route"]
             clr = C.TEXT if is_active else C.TEXT_MUTED
-            bg = C.GOLD_FAINT if is_active else None
+            bg = C.ACCENT_FAINT if is_active else None
             ic = icon(item["icon"], size=16, color=clr)
             nav_items.append(
                 ft.Container(
@@ -107,13 +107,9 @@ def sidebar_desktop(page: ft.Page, is_business: bool, on_toggle_popup) -> ft.Con
         padding=pad(v=SPACE_SM, h=10),
     )
 
-    sidebar = gradient_border(
+    sidebar = ft.Container(
         content=ft.Column([header, nav_container, profile_section], spacing=0, expand=True),
-        colors=[C.GREEN, C.GOLD, C.RED, C.TEXT],
-        width=0.8,
-        radius=14,
         bgcolor=C.SIDEBAR_BG,
-        expand=False,
+        width=220,
     )
-    sidebar.width = 220
     return sidebar
